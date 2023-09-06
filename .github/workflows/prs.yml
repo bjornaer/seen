@@ -1,0 +1,58 @@
+name: Go Code Quality
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version-file: 'go.mod'
+
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Cache Go modules
+        uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: ${{ runner.os }}-go-
+
+      - name: Install golangci-lint
+        run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.54.2
+    
+      - name: Run linters
+        run: golangci-lint run ./...
+
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Run tests with coverage
+        run: go test ./... -coverprofile=coverage.out
+        
+      - name: Upload coverage to GitHub
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage.out
+
+      - name: Check Coverage
+        run: |
+          go tool cover -func=coverage.out > coverage.txt
+          cat coverage.txt
+          MIN_COVERAGE="80.0"
+          COVERAGE=$(tail -n 1 coverage.txt | awk '{print $(NF-1)}' | sed 's/%//')
+          if (( $(echo "$COVERAGE < $MIN_COVERAGE" | bc -l) )); then
+            echo "Code coverage is below $MIN_COVERAGE%"
+            exit 1
+          fi
+

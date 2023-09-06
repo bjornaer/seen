@@ -1,0 +1,42 @@
+linters-settings:
+  govet:
+    check-shadowing: true
+    enable:
+      - fieldalignment
+  revive:
+    confidence: 0.8
+  gocyclo:
+    min-complexity: 10
+
+
+
+linters:
+  disable-all: true
+  enable:
+    - govet
+    - revive  # Replaces 'golint'
+    - gocyclo
+    - errcheck
+    - staticcheck
+    - unused
+    - unconvert
+    - goconst
+    - gocritic
+    - gosec
+
+run:
+  skip-dirs:
+    - "vendor"
+  skip-files:
+    - ".*_test\\.go"
+  modules-download-mode: readonly
+  timeout: 5m
+
+issues:
+  exclude-use-default: false
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - gocyclo
+        - errcheck
+        - gosec
