@@ -35,7 +35,7 @@ In the fashion of a tale's opening, let us step through the key elements that co
 
 ### Prerequisites
 
-- Go 1.19 or higher
+- Go 1.21 or higher
 - Docker (for containerisation)
 - Google Cloud SDK (for interacting with Google Pub/Sub)
 
