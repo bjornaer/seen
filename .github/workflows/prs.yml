@@ -50,7 +50,7 @@ jobs:
           go tool cover -func=coverage.out > coverage.txt
           cat coverage.txt
           MIN_COVERAGE="80.0"
-          COVERAGE=$(tail -n 1 coverage.txt | awk '{print $(NF-1)}' | sed 's/%//')
+          COVERAGE=$(tail -n 1 coverage.txt | grep 'total:' | awk '{print $(NF)}' | sed 's/%//')
           if (( $(echo "$COVERAGE < $MIN_COVERAGE" | bc -l) )); then
             echo "Code coverage is below $MIN_COVERAGE%"
             exit 1
