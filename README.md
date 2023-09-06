@@ -1,7 +1,7 @@
 # Google Pub/Sub Client in Golang
 [![Go Report Card](https://goreportcard.com/badge/github.com/bjornaer/seen)](https://goreportcard.com/report/github.com/bjornaer/seen)
 [![](https://tokei.rs/b1/github/bjornaer/seen?category=code)](https://github.com/bjornaer/seen)
-![Test](https://github.com/bjornaer/seen/actions/workflows/test_and_lint.yml/badge.svg)
+![Test](https://github.com/bjornaer/seen/actions/workflows/build_and_push.yml/badge.svg)
 
 
 
@@ -35,7 +35,7 @@ In the fashion of a tale's opening, let us step through the key elements that co
 
 ### Prerequisites
 
-- Go 1.19 or higher
+- Go 1.21 or higher
 - Docker (for containerisation)
 - Google Cloud SDK (for interacting with Google Pub/Sub)
 
@@ -44,7 +44,7 @@ In the fashion of a tale's opening, let us step through the key elements that co
 Clone the repository into your desired location:
 
 ```sh
-git clone https://github.com/your_project.git
+git clone git@github.com:bjornaer/seen.git
 ```
 
 Navigate to the directory and run:
